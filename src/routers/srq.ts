@@ -1,8 +1,10 @@
 import express from "express";
-
+import * as supportRequestController from "../controllers/srqController";
 const router = express.Router();
 
-router.get("/srq");
-router.post("/srq");
-router.patch("srq/:id");
-router.delete("srq/:id");
+router.get("/srq", supportRequestController.getAllSupportRequests);
+router.post("/srq", supportRequestController.postAddSupportRequest);
+router.patch("/srq/:srqId", supportRequestController.updateSupportRequestById);
+router.delete("/srq/:srqId", supportRequestController.deleteSupportRequestById);
+
+export default router;
