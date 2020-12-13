@@ -1,5 +1,8 @@
 import mongoose, { Error } from "mongoose";
 require("dotenv").config("../.env");
+if (!process.env.MONGODB_URI) {
+  throw new Error("Could not connect to a database, provide env!");
+}
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
