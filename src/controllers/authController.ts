@@ -2,7 +2,6 @@ import { MiddlewareFn } from "../middleware/Middleware";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { Error } from "mongoose";
 export const postAddUser: MiddlewareFn = async (req, res, next) => {
   const { username, fullName, password } = req.body;
   try {
