@@ -1,10 +1,10 @@
 import SupportRequest from "../models/SupportRequest";
-import { MiddlewareFn } from "./Middleware";
+import { MiddlewareFn } from "../middleware/Middleware";
 
 interface SupportRequestObject {
-  title?: String;
-  description?: String;
-  department?: String;
+  title?: string;
+  description?: string;
+  department?: string;
 }
 
 export const getAllSupportRequests: MiddlewareFn = async (req, res, next) => {

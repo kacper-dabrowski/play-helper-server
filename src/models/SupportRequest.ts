@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-const supportRequestSchema = new schema({
+const supportRequestSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -17,4 +17,13 @@ const supportRequestSchema = new schema({
   },
 });
 
-export default mongoose.model("SupportRequest", supportRequestSchema);
+interface SupportRequest extends mongoose.Document {
+  title: string;
+  description: string;
+  department: string;
+}
+
+export default mongoose.model<SupportRequest>(
+  "SupportRequest",
+  supportRequestSchema
+);
