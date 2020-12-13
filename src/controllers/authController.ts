@@ -2,6 +2,7 @@ import { MiddlewareFn } from "../middleware/Middleware";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { Error } from "mongoose";
 export const postAddUser: MiddlewareFn = async (req, res, next) => {
   const { username, fullName, password } = req.body;
   try {
@@ -43,6 +44,8 @@ export const loginUser: MiddlewareFn = async (req, res, next) => {
     );
     return res.status(200).send({ token, userId: user._id });
   } catch (error) {
-    console.log(error.message);
+    res
+      .status(401)
+      .send({ message: "Could not authenticate", details: error.message });
   }
 };
