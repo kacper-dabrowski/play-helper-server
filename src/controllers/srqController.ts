@@ -1,6 +1,12 @@
 import SupportRequest from "../models/SupportRequest";
 import { MiddlewareFn } from "./Middleware";
 
+interface SupportRequestObject {
+  title?: String;
+  description?: String;
+  department?: String;
+}
+
 export const getAllSupportRequests: MiddlewareFn = async (req, res, next) => {
   const supportRequests = await SupportRequest.find({});
   return res.status(200).send({ supportRequests });
@@ -33,15 +39,17 @@ export const updateSupportRequestById: MiddlewareFn = async (
         .status(404)
         .send({ message: "Could not find requested entity" });
     }
+    const updates: SupportRequestObject = {};
     if (title) {
-      supportRequest.set(title);
+      updates.title = title;
     }
     if (department) {
-      supportRequest.set(department);
+      updates.department = department;
     }
     if (description) {
-      supportRequest.set(description);
+      updates.description = description;
     }
+    await supportRequest.updateOne(updates);
     await supportRequest.save();
     return res.status(200).send({ message: "Entity updated successfully" });
   } catch (error) {
