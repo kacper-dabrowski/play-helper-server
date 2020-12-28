@@ -1,4 +1,4 @@
-import mongoose, { Error } from "mongoose";
+import mongoose from "mongoose";
 require("dotenv").config("../.env");
 if (!process.env.MONGODB_URI) {
   throw new Error("Could not connect to a database, provide env!");
@@ -11,8 +11,7 @@ mongoose
   .then(() => {
     console.log("Successfully connected to the database");
   })
-  .catch((error: Error) => {
-    console.log(process.env.MONGODB_URI);
+  .catch((error) => {
     console.log("Unable to connect to the database! Details: " + error.message);
   });
 
