@@ -1,5 +1,7 @@
+import ControllerError from "../utils/ControllerError";
 import SupportRequest from "../models/SupportRequest";
 import { MiddlewareFn } from "./Middleware";
+import createError from "../utils/createError";
 
 interface SupportRequestObject {
   title?: String;
@@ -8,19 +10,34 @@ interface SupportRequestObject {
 }
 
 export const getAllSupportRequests: MiddlewareFn = async (req, res, next) => {
-  const supportRequests = await SupportRequest.find({});
-  return res.status(200).send({ supportRequests });
+  try {
+    const supportRequests = await SupportRequest.find({});
+    return res.status(200).send({ supportRequests });
+  } catch (error) {
+    const customError = createError(error.message, 500);
+    next(customError);
+  }
 };
 
 export const postAddSupportRequest: MiddlewareFn = async (req, res, next) => {
-  const { title, department, description } = req.body;
-
-  const supportRequest = new SupportRequest({ title, department, description });
   try {
+    const { title, department, description } = req.body;
+    const supportRequest = new SupportRequest({
+      title,
+      department,
+      description,
+    });
+
     await supportRequest.save();
+
     return res.status(200).send({ message: "Entity created" });
   } catch (error) {
-    return res.status(400).send({ message: "Could not save the entity" });
+    const customError = createError(
+      "There was something wrong with your request.",
+      400
+    );
+
+    next(customError);
   }
 };
 
@@ -29,15 +46,14 @@ export const updateSupportRequestById: MiddlewareFn = async (
   res,
   next
 ) => {
-  const { srqId } = req.params;
-  const { title, department, description } = req.body;
-
   try {
+    const { srqId } = req.params;
+    const { title, department, description } = req.body;
+
     const supportRequest = await SupportRequest.findById(srqId);
     if (!supportRequest) {
-      return res
-        .status(404)
-        .send({ message: "Could not find requested entity" });
+      const customError = createError("Could not find requested entity", 404);
+      throw customError;
     }
     const updates: SupportRequestObject = {};
     if (title) {
@@ -53,7 +69,7 @@ export const updateSupportRequestById: MiddlewareFn = async (
     await supportRequest.save();
     return res.status(200).send({ message: "Entity updated successfully" });
   } catch (error) {
-    return res.status(400).send({ message: "Could not update an entity" });
+    next(error);
   }
 };
 
@@ -66,8 +82,9 @@ export const deleteSupportRequestById: MiddlewareFn = async (
     const { srqId } = req.params;
 
     await SupportRequest.findByIdAndDelete(srqId);
+
     return res.status(200).send({ message: "Entity removed successfully" });
   } catch (error) {
-    return res.status(400).send({ message: "Could not remove an entity" });
+    next(createError("Could not delete the entity.", 400));
   }
 };
