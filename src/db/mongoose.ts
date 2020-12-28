@@ -12,7 +12,6 @@ mongoose
     console.log("Successfully connected to the database");
   })
   .catch((error) => {
-    console.log(process.env.MONGODB_URI);
     console.log("Unable to connect to the database! Details: " + error.message);
   });
 
