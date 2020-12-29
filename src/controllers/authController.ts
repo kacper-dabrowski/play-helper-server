@@ -2,6 +2,7 @@ import { MiddlewareFn } from "../middleware/Middleware";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import config from "../config";
 export const postAddUser: MiddlewareFn = async (req, res, next) => {
   const { username, fullName, password } = req.body;
   try {
@@ -39,9 +40,11 @@ export const loginUser: MiddlewareFn = async (req, res, next) => {
         isAdmin: Boolean(user.isAdmin),
       },
       process.env.JWT_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: config.EXPIRES_IN }
     );
-    return res.status(200).send({ token, userId: user._id });
+    return res
+      .status(200)
+      .send({ token, userId: user._id, expiresIn: config.EXPIRES_IN });
   } catch (error) {
     res
       .status(401)
