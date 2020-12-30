@@ -1,14 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-declare global {
-  namespace Express {
-    interface Request {
-      [key: string]: any;
-    }
-  }
+interface AppRequest extends Request {
+  userId?: string;
 }
+
 export type MiddlewareFn = (
-  req: Request,
+  req: AppRequest,
   res: Response,
   next: NextFunction
 ) => void;

@@ -1,0 +1,7 @@
+export const CREDENTIALS_INVALID = "CREDENTIALS_INVALID";
+
+export const SERVER_ERROR = "SERVER_ERROR";
+
+export const USER_EXISTS = "USER_EXISTS";
+
+export type AppError = "USER_EXISTS" | "SERVER_ERROR" | "CREDENTIALS_INVALID";
