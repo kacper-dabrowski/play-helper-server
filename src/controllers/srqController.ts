@@ -1,6 +1,7 @@
 import SupportRequest from "../models/SupportRequest";
 import { MiddlewareFn } from "../middleware/Middleware";
-import createError from "../utils/createError";
+import { Error } from "mongoose";
+import errorTypes from "../utils/errors/errorTypes";
 
 interface SupportRequestObject {
   title?: string;
@@ -13,8 +14,7 @@ export const getAllSupportRequests: MiddlewareFn = async (req, res, next) => {
     const supportRequests = await SupportRequest.find({});
     return res.status(200).send({ supportRequests });
   } catch (error) {
-    const customError = createError(error.message, 500);
-    next(customError);
+    next(error.message);
   }
 };
 
@@ -31,12 +31,7 @@ export const postAddSupportRequest: MiddlewareFn = async (req, res, next) => {
 
     return res.status(200).send({ message: "Entity created" });
   } catch (error) {
-    const customError = createError(
-      "There was something wrong with your request.",
-      400
-    );
-
-    next(customError);
+    next(error.message);
   }
 };
 
@@ -50,11 +45,13 @@ export const updateSupportRequestById: MiddlewareFn = async (
     const { title, department, description } = req.body;
 
     const supportRequest = await SupportRequest.findById(srqId);
+
     if (!supportRequest) {
-      const customError = createError("Could not find requested entity", 404);
-      throw customError;
+      throw new Error(errorTypes.RESOURCE_NOT_FOUND);
     }
+
     const updates: SupportRequestObject = {};
+
     if (title) {
       updates.title = title;
     }
@@ -64,11 +61,13 @@ export const updateSupportRequestById: MiddlewareFn = async (
     if (description) {
       updates.description = description;
     }
+
     await supportRequest.updateOne(updates);
     await supportRequest.save();
+
     return res.status(200).send({ message: "Entity updated successfully" });
   } catch (error) {
-    next(error);
+    next(error.message);
   }
 };
 
@@ -84,6 +83,6 @@ export const deleteSupportRequestById: MiddlewareFn = async (
 
     return res.status(200).send({ message: "Entity removed successfully" });
   } catch (error) {
-    next(createError("Could not delete the entity.", 400));
+    next(error.message);
   }
 };

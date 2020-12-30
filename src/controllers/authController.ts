@@ -3,7 +3,7 @@ import User from "../models/User";
 import bcrypt from "bcryptjs";
 import config from "../config";
 import signUser from "../utils/auth/signUser";
-import * as errorTypes from "../utils/errors/errorTypes";
+import errorTypes from "../utils/errors/errorTypes";
 export const postAddUser: MiddlewareFn = async (req, res, next) => {
   try {
     const { username, fullName, password } = req.body;

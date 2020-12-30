@@ -1,17 +1,21 @@
 import { ErrorRequestHandler } from "express";
-import { AppError, SERVER_ERROR } from "./errorTypes";
+import errorTypes from "./errorTypes";
 
-const errorHandler: ErrorRequestHandler = (error: AppError, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (error: string, req, res, next) => {
   switch (error) {
-    case "USER_EXISTS":
+    case errorTypes.USER_EXISTS:
       return res.status(400).send({
         message:
           "User with this login already exists. Try with different one or sign in",
       });
-    case "CREDENTIALS_INVALID":
+    case errorTypes.CREDENTIALS_INVALID:
       return res.status(400).send({
         message: "Credentials were invalid. Try again",
       });
+    case errorTypes.RESOURCE_NOT_FOUND:
+      return res
+        .status(404)
+        .send({ message: "Requested resource could not be found" });
     default:
       return res
         .status(500)
