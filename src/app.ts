@@ -4,6 +4,7 @@ import supportRequestRouter from "./routers/srq";
 import authRouter from "./routers/auth";
 import cors from "cors";
 import errorHandler from "./utils/errors/errorHandler";
+import notFoundRouter from "./routers/notFound";
 
 require("./db/mongoose");
 
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 app.use(authRouter);
 app.use(supportRequestRouter);
 app.use(errorHandler);
+app.use("*", notFoundRouter);
 
 app.listen(PORT, () => {
   console.log("App is running on " + PORT);
