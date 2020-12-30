@@ -1,19 +1,36 @@
 import { MiddlewareFn } from "../middleware/Middleware";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import config from "../config";
+import signUser from "../utils/auth/signUser";
+import * as errorTypes from "../utils/errors/errorTypes";
 export const postAddUser: MiddlewareFn = async (req, res, next) => {
-  const { username, fullName, password } = req.body;
   try {
+    const { username, fullName, password } = req.body;
+
+    if (!username || !fullName || !password) {
+      throw new Error(errorTypes.CREDENTIALS_INVALID);
+    }
+
+    const isExistingUser = await User.findOne({ username });
+
+    if (isExistingUser) {
+      throw new Error(errorTypes.USER_EXISTS);
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({ username, password: hashedPassword, fullName });
+    const savedUser = await user.save();
+    const token = signUser(savedUser);
 
-    await user.save();
-
-    return res.status(201).send({ message: "User created successfully" });
+    return res.status(201).send({
+      message: "User created successfully",
+      token,
+      userId: savedUser._id,
+      expiresIn: config.EXPIRES_IN,
+    });
   } catch (error) {
-    console.log(error.message);
+    next(error.message);
   }
 };
 
@@ -21,38 +38,26 @@ export const loginUser: MiddlewareFn = async (req, res, next) => {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ username });
+
     if (!user) {
-      throw new Error("User was not found!");
+      throw new Error(errorTypes.CREDENTIALS_INVALID);
     }
+
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
     if (!isPasswordCorrect) {
-      throw new Error("Wrong credentials were passed");
+      throw new Error(errorTypes.CREDENTIALS_INVALID);
     }
-    if (!process.env.JWT_KEY) {
-      throw new Error(
-        "Could not save user because JWT_KEY is missing in environment variables"
-      );
-    }
-    const token = jwt.sign(
-      {
-        username,
-        fullName: user.fullName,
-        isAdmin: Boolean(user.isAdmin),
-      },
-      process.env.JWT_KEY,
-      { expiresIn: config.EXPIRES_IN }
-    );
-    return res
-      .status(200)
-      .send({
-        token,
-        userId: user._id,
-        expiresIn: config.EXPIRES_IN,
-        fullName: user.fullName,
-      });
+
+    const token = signUser(user);
+
+    return res.status(200).send({
+      token,
+      userId: user._id,
+      fullName: user.fullName,
+      expiresIn: config.EXPIRES_IN,
+    });
   } catch (error) {
-    res
-      .status(401)
-      .send({ message: "Could not authenticate", details: error.message });
+    next(error.message);
   }
 };
