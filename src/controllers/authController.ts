@@ -44,7 +44,12 @@ export const loginUser: MiddlewareFn = async (req, res, next) => {
     );
     return res
       .status(200)
-      .send({ token, userId: user._id, expiresIn: config.EXPIRES_IN });
+      .send({
+        token,
+        userId: user._id,
+        expiresIn: config.EXPIRES_IN,
+        fullName: user.fullName,
+      });
   } catch (error) {
     res
       .status(401)
