@@ -15,15 +15,20 @@ const supportRequestSchema = new Schema({
     type: String,
     required: true,
   },
+  content: {
+    type: String,
+    required: true,
+  },
 });
 
-interface SupportRequest extends mongoose.Document {
+export interface SupportRequestData extends mongoose.Document {
   title: string;
   description: string;
   department: string;
+  content: string;
 }
 
-export default mongoose.model<SupportRequest>(
+export default mongoose.model<SupportRequestData>(
   "SupportRequest",
   supportRequestSchema
 );
