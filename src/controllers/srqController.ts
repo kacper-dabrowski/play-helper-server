@@ -4,9 +4,10 @@ import { Error } from "mongoose";
 import errorTypes from "../utils/errors/errorTypes";
 
 interface SupportRequestObject {
-  title?: string;
-  description?: string;
-  department?: string;
+  title: string;
+  description: string;
+  content: string;
+  department: string;
 }
 
 export const getAllSupportRequests: MiddlewareFn = async (req, res, next) => {
@@ -20,11 +21,12 @@ export const getAllSupportRequests: MiddlewareFn = async (req, res, next) => {
 
 export const postAddSupportRequest: MiddlewareFn = async (req, res, next) => {
   try {
-    const { title, department, description } = req.body;
+    const { title, department, description, content } = req.body;
     const supportRequest = new SupportRequest({
       title,
       department,
       description,
+      content,
     });
 
     await supportRequest.save();
@@ -42,7 +44,7 @@ export const updateSupportRequestById: MiddlewareFn = async (
 ) => {
   try {
     const { srqId } = req.params;
-    const { title, department, description } = req.body;
+    const { title, department, description, content } = req.body;
 
     const supportRequest = await SupportRequest.findById(srqId);
 
@@ -50,7 +52,12 @@ export const updateSupportRequestById: MiddlewareFn = async (
       throw new Error(errorTypes.RESOURCE_NOT_FOUND);
     }
 
-    const updates: SupportRequestObject = {};
+    const updates: SupportRequestObject = {
+      title: "",
+      department: "",
+      description: "",
+      content: "",
+    };
 
     if (title) {
       updates.title = title;
@@ -60,6 +67,9 @@ export const updateSupportRequestById: MiddlewareFn = async (
     }
     if (description) {
       updates.description = description;
+    }
+    if (content) {
+      updates.content = content;
     }
 
     await supportRequest.updateOne(updates);
