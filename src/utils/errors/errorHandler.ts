@@ -2,6 +2,8 @@ import { ErrorRequestHandler } from "express";
 import errorTypes from "./errorTypes";
 
 const errorHandler: ErrorRequestHandler = (error: string, req, res, next) => {
+  console.log(error);
+
   switch (error) {
     case errorTypes.BAD_REQUEST:
       return res.status(400).send({

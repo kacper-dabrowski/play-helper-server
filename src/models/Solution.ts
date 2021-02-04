@@ -38,4 +38,12 @@ export interface SolutionData extends mongoose.Document {
   isPublic: boolean;
 }
 
+export const allowedUpdates = [
+  "title",
+  "description",
+  "man",
+  "woman",
+  "company",
+  "isPublic",
+];
 export default mongoose.model("Solution", SolutionSchema);

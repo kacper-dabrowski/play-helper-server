@@ -5,6 +5,7 @@ import authRouter from "./routers/auth";
 import cors from "cors";
 import errorHandler from "./utils/errors/errorHandler";
 import notFoundRouter from "./routers/notFound";
+import solutionRouter from "./routers/solution";
 
 require("./db/mongoose");
 
@@ -17,6 +18,7 @@ app.use(corsWithOptions);
 app.use(bodyParser.json());
 app.use(authRouter);
 app.use(supportRequestRouter);
+app.use(solutionRouter);
 app.use(errorHandler);
 app.use("*", notFoundRouter);
 
