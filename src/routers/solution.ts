@@ -4,7 +4,8 @@ const router = express.Router();
 
 router.put("/solutions", solutionController.putAddSolution);
 router.get("/solutions", solutionController.getSolutions);
-router.post("/solutions/:id", solutionController.postUpdateSolution);
+router.get("/solutions/:solutionId", solutionController.getSolutionById);
+router.post("/solutions/:solutionId", solutionController.postUpdateSolution);
 router.delete("/solutions/:solutionId", solutionController.deleteSolutionById);
 
 export default router;

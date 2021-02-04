@@ -28,6 +28,8 @@ export interface SupportRequestData extends mongoose.Document {
   content: string;
 }
 
+export const allowedUpdates = ["title", "description", "department", "content"];
+
 export default mongoose.model<SupportRequestData>(
   "SupportRequest",
   supportRequestSchema

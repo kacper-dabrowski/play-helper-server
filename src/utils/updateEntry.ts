@@ -7,9 +7,11 @@ const updateEntry = <T>(
 ) => {
   Object.entries(updates).forEach((entry) => {
     const [key, value] = entry as objectEntry<T>;
-    if (updatableFields.includes(key)) {
+    if (updatableFields.includes(key) && value) {
       object[key] = value;
     }
   });
   return object;
 };
+
+export default updateEntry;
