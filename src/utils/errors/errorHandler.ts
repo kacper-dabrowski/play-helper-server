@@ -3,6 +3,10 @@ import errorTypes from "./errorTypes";
 
 const errorHandler: ErrorRequestHandler = (error: string, req, res, next) => {
   switch (error) {
+    case errorTypes.BAD_REQUEST:
+      return res.status(400).send({
+        message: "Could not create an entity, invalid data was passed",
+      });
     case errorTypes.USER_EXISTS:
       return res.status(400).send({
         message:

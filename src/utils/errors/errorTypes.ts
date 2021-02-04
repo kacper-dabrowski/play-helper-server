@@ -3,6 +3,7 @@ const errorTypes = {
   SERVER_ERROR: "SERVER_ERROR",
   USER_EXISTS: "USER_EXISTS",
   RESOURCE_NOT_FOUND: "RESOURCE_NOT_FOUND",
+  BAD_REQUEST: "BAD_REQUEST",
 };
 
 export default errorTypes;
