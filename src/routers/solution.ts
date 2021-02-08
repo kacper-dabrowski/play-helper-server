@@ -1,11 +1,24 @@
 import express from "express";
 import * as solutionController from "../controllers/solutionController";
+import isAuth from "../middleware/is-auth";
 const router = express.Router();
 
-router.put("/solutions", solutionController.putAddSolution);
-router.get("/solutions", solutionController.getSolutions);
-router.get("/solutions/:solutionId", solutionController.getSolutionById);
-router.post("/solutions/:solutionId", solutionController.postUpdateSolution);
-router.delete("/solutions/:solutionId", solutionController.deleteSolutionById);
+router.put("/solutions", isAuth, solutionController.putAddSolution);
+router.get("/solutions", isAuth, solutionController.getSolutions);
+router.get(
+  "/solutions/:solutionId",
+  isAuth,
+  solutionController.getSolutionById
+);
+router.post(
+  "/solutions/:solutionId",
+  isAuth,
+  solutionController.postUpdateSolution
+);
+router.delete(
+  "/solutions/:solutionId",
+  isAuth,
+  solutionController.deleteSolutionById
+);
 
 export default router;

@@ -27,6 +27,10 @@ const SolutionSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  author: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 export interface SolutionData extends mongoose.Document {

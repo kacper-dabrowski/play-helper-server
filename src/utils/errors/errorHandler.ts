@@ -5,6 +5,10 @@ const errorHandler: ErrorRequestHandler = (error: string, req, res, next) => {
   console.log(error);
 
   switch (error) {
+    case errorTypes.UNAUTHORIZED:
+      return res.status(403).send({
+        message: "You don't have permissions to perform this operation",
+      });
     case errorTypes.BAD_REQUEST:
       return res.status(400).send({
         message: "Could not create an entity, invalid data was passed",
