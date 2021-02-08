@@ -7,10 +7,10 @@ const signUser = (user: User) => {
     throw new Error("There was some error with JWT");
   }
 
-  const { userId, fullName } = user;
+  const { _id, fullName } = user;
 
   const token = jwt.sign(
-    { userId, fullName, expiresIn: config.EXPIRES_IN },
+    { userId: _id, fullName, expiresIn: config.EXPIRES_IN },
     process.env.JWT_KEY,
     { expiresIn: config.EXPIRES_IN }
   );

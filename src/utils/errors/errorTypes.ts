@@ -4,6 +4,7 @@ const errorTypes = {
   USER_EXISTS: "USER_EXISTS",
   RESOURCE_NOT_FOUND: "RESOURCE_NOT_FOUND",
   BAD_REQUEST: "BAD_REQUEST",
+  UNAUTHORIZED: "UNAUTHORIZED",
 };
 
 export default errorTypes;

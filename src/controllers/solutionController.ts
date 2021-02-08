@@ -6,6 +6,7 @@ import updateEntry from "../utils/updateEntry";
 export const putAddSolution: MiddlewareFn = async (req, res, next) => {
   try {
     const { title, description, man, woman, company, isPublic } = req.body;
+    console.log(req.userId);
 
     const newSolution = new Solution({
       title,
@@ -14,6 +15,7 @@ export const putAddSolution: MiddlewareFn = async (req, res, next) => {
       woman,
       company,
       isPublic,
+      author: req.userId,
     });
 
     await newSolution.save();
@@ -58,15 +60,25 @@ export const postUpdateSolution: MiddlewareFn = async (req, res, next) => {
 };
 
 export const deleteSolutionById: MiddlewareFn = async (req, res, next) => {
-  const { solutionId } = req.params;
-  if (!solutionId) throw new Error(errorTypes.RESOURCE_NOT_FOUND);
-  await Solution.findByIdAndDelete(solutionId);
-  return res.status(200).send({ message: "Entity removed successfully" });
+  try {
+    const { solutionId } = req.params;
+    if (!solutionId) throw new Error(errorTypes.RESOURCE_NOT_FOUND);
+    const solutionToDelete = await Solution.findOne({
+      $and: [{ _id: solutionId }, { author: req.userId }],
+    });
+    if (!solutionToDelete) throw new Error(errorTypes.RESOURCE_NOT_FOUND);
+    return res.status(200).send({ message: "Entity removed successfully" });
+  } catch (error) {
+    next(error.message);
+  }
 };
 
 export const getSolutions: MiddlewareFn = async (req, res, next) => {
   try {
-    const solutions = await Solution.find({});
+    const solutions = await Solution.find({
+      $or: [{ author: { $eq: req.userId } }, { isPublic: { $eq: true } }],
+    });
+
     return res.status(200).send(solutions);
   } catch (error) {
     next(error);
