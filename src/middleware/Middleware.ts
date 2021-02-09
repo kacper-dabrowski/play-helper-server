@@ -1,11 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
 interface AppRequest extends Request {
-  userId?: string;
+    userId?: string;
 }
 
-export type MiddlewareFn = (
-  req: AppRequest,
-  res: Response,
-  next: NextFunction
-) => void;
+export type MiddlewareFn = (req: AppRequest, res: Response, next: NextFunction) => void;
