@@ -19,8 +19,8 @@ app.use(bodyParser.json());
 app.use(authRouter);
 app.use(supportRequestRouter);
 app.use(solutionRouter);
-app.use(errorHandler);
 app.use('*', notFoundRouter);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log('App is running on ' + PORT);

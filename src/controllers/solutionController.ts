@@ -30,8 +30,6 @@ export const postUpdateSolution: MiddlewareFn = async (req, res, next) => {
     try {
         const { title, description, man, woman, company, isPublic } = req.body;
         const { solutionId } = req.params;
-        console.warn(req.params);
-        console.warn(req.body);
 
         if (!solutionId) {
             throw new Error(errorTypes.BAD_REQUEST);
@@ -49,22 +47,28 @@ export const postUpdateSolution: MiddlewareFn = async (req, res, next) => {
         await updatedSolution.update(updatedSolution);
         return res.status(200).send({ message: 'Entity updated successfully' });
     } catch (error) {
-        next(error);
+        next(error.message);
     }
 };
 
 export const deleteSolutionById: MiddlewareFn = async (req, res, next) => {
     try {
         const { solutionId } = req.params;
-        if (!solutionId) throw new Error(errorTypes.RESOURCE_NOT_FOUND);
-        const solutionToDelete = (await Solution.findById(solutionId)) as SolutionData;
+        if (!solutionId) {
+            throw new Error(errorTypes.RESOURCE_NOT_FOUND);
+        }
+        const solutionToDelete = await Solution.findById(solutionId);
         if (!solutionToDelete) {
             throw new Error(errorTypes.RESOURCE_NOT_FOUND);
         }
-        if (solutionToDelete.author !== req.userId) {
+
+        if (solutionToDelete.author.toString() !== req.userId) {
             throw new Error(errorTypes.UNAUTHORIZED);
         }
-        if (!solutionToDelete) throw new Error(errorTypes.RESOURCE_NOT_FOUND);
+        if (!solutionToDelete) {
+            throw new Error(errorTypes.RESOURCE_NOT_FOUND);
+        }
+
         return res.status(200).send({ message: 'Entity removed successfully' });
     } catch (error) {
         next(error.message);
@@ -79,7 +83,7 @@ export const getSolutions: MiddlewareFn = async (req, res, next) => {
 
         return res.status(200).send(solutions);
     } catch (error) {
-        next(error);
+        next(error.message);
     }
 };
 
@@ -93,6 +97,6 @@ export const getSolutionById: MiddlewareFn = async (req, res, next) => {
 
         return res.send(solution);
     } catch (error) {
-        next(error);
+        next(error.message);
     }
 };
