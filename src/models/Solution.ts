@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 const Schema = mongoose.Schema;
 
@@ -33,7 +33,7 @@ const SolutionSchema = new Schema({
     },
 });
 
-export interface SolutionData extends mongoose.Document {
+export interface SolutionData extends Document {
     title: string;
     description: string;
     man: string;
@@ -44,4 +44,4 @@ export interface SolutionData extends mongoose.Document {
 }
 
 export const allowedUpdates = ['title', 'description', 'man', 'woman', 'company', 'isPublic'];
-export default mongoose.model('Solution', SolutionSchema);
+export default mongoose.model<SolutionData>('Solution', SolutionSchema);

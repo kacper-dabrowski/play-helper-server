@@ -1,9 +1,7 @@
 import { ErrorRequestHandler } from 'express';
 import errorTypes from './errorTypes';
 
-const errorHandler: ErrorRequestHandler = (error: string, req, res) => {
-    console.log(error);
-
+const errorHandler: ErrorRequestHandler = (error: string, req, res, next) => {
     switch (error) {
         case errorTypes.UNAUTHORIZED:
             return res.status(403).send({
