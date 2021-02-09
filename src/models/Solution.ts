@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -40,6 +40,7 @@ export interface SolutionData extends mongoose.Document {
   woman: string;
   company: string;
   isPublic: boolean;
+  author: string;
 }
 
 export const allowedUpdates = [

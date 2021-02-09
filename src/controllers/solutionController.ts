@@ -63,9 +63,15 @@ export const deleteSolutionById: MiddlewareFn = async (req, res, next) => {
   try {
     const { solutionId } = req.params;
     if (!solutionId) throw new Error(errorTypes.RESOURCE_NOT_FOUND);
-    const solutionToDelete = await Solution.findOne({
-      $and: [{ _id: solutionId }, { author: req.userId }],
-    });
+    const solutionToDelete = (await Solution.findById(
+      solutionId
+    )) as SolutionData;
+    if (!solutionToDelete) {
+      throw new Error(errorTypes.RESOURCE_NOT_FOUND);
+    }
+    if (solutionToDelete.author !== req.userId) {
+      throw new Error(errorTypes.UNAUTHORIZED);
+    }
     if (!solutionToDelete) throw new Error(errorTypes.RESOURCE_NOT_FOUND);
     return res.status(200).send({ message: "Entity removed successfully" });
   } catch (error) {
