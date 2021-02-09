@@ -1,5 +1,5 @@
-import { MiddlewareFn } from "../middleware/Middleware";
+import { MiddlewareFn } from '../middleware/Middleware';
 
-export const NotFoundController: MiddlewareFn = (req, res, next) => {
-  res.status(404).send({ message: "Ran out of middlewares!" });
+export const NotFoundController: MiddlewareFn = (req, res) => {
+    res.status(404).send({ message: 'Ran out of middlewares!' });
 };
