@@ -1,22 +1,21 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../models/User';
 import { MiddlewareFn } from './Middleware';
+import { routeWrapper } from './routeWrapper';
+import Errors from '../utils/errors';
 
-const isAuth: MiddlewareFn = (req, res, next) => {
-    try {
-        const token = req.get('Authorization')?.split(' ')[1];
-        if (!token || !process.env.JWT_KEY) {
-            throw new Error('Authentication credentials were not provided');
-        }
-        const decodedToken = jwt.verify(token, process.env.JWT_KEY) as User;
-        if (!decodedToken) {
-            throw new Error('');
-        }
-        req.userId = decodedToken.userId;
-    } catch (error) {
-        return res.status(401).send({ message: 'Could not authenticate', details: error.message });
+const isAuth: MiddlewareFn = routeWrapper((req, res, next) => {
+    const token = req.get('Authorization')?.split(' ')[1];
+    if (!token || !process.env.JWT_KEY) {
+        throw new Errors.BadRequestError();
     }
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY) as User;
+    if (!decodedToken) {
+        Errors.NoGrantsError();
+    }
+    req.userId = decodedToken.userId;
+
     next();
-};
+});
 
 export default isAuth;
