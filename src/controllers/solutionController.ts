@@ -51,17 +51,11 @@ export const deleteSolutionById: MiddlewareFn = routeWrapper(async (req, res) =>
         throw new Errors.BadRequestError();
     }
     const solutionToDelete = await Solution.findById(solutionId);
-    if (!solutionToDelete) {
-        throw new Errors.NotFoundError();
-    }
 
-    if (solutionToDelete.author.toString() !== req.userId) {
+    if (!solutionToDelete || solutionToDelete.author.toString() !== req.userId) {
         throw new Errors.NoGrantsError();
     }
-    if (!solutionToDelete) {
-        throw new Errors.NotFoundError();
-    }
-
+    await solutionToDelete.delete();
     return res.status(200).send({ message: 'Entity removed successfully' });
 });
 
