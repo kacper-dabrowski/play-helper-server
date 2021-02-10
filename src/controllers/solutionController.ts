@@ -48,7 +48,7 @@ export const postUpdateSolution: MiddlewareFn = routeWrapper(async (req, res) =>
 export const deleteSolutionById: MiddlewareFn = routeWrapper(async (req, res) => {
     const { solutionId } = req.params;
     if (!solutionId) {
-        throw new Errors.NotFoundError();
+        throw new Errors.BadRequestError();
     }
     const solutionToDelete = await Solution.findById(solutionId);
     if (!solutionToDelete) {
@@ -69,8 +69,13 @@ export const getSolutions: MiddlewareFn = routeWrapper(async (req, res) => {
     const solutions = await Solution.find({
         $or: [{ author: { $eq: req.userId } }, { isPublic: { $eq: true } }],
     });
+    const solutionsToSend = solutions.map((solution) => {
+        const isAuthor = solution.author.toString() === req.userId;
 
-    return res.status(200).send(solutions);
+        return { ...solution.toObject(), isAuthor };
+    });
+
+    return res.status(200).send(solutionsToSend);
 });
 
 export const getSolutionById: MiddlewareFn = routeWrapper(async (req, res) => {
