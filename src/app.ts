@@ -6,7 +6,7 @@ import cors from 'cors';
 import errorHandler from './utils/errors/errorHandler';
 import notFoundRouter from './routers/notFound';
 import solutionRouter from './routers/solution';
-import healthCheckRouter from './routers/healthcheck';
+import healthCheckRouter from './routers/healthCheck';
 
 require('./db/mongoose');
 
