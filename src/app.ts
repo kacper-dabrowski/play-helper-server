@@ -6,6 +6,7 @@ import cors from 'cors';
 import errorHandler from './utils/errors/errorHandler';
 import notFoundRouter from './routers/notFound';
 import solutionRouter from './routers/solution';
+import healthCheckRouter from './routers/healthcheck';
 
 require('./db/mongoose');
 
@@ -15,6 +16,7 @@ const corsWithOptions = cors({});
 const PORT = process.env.PORT || 3000;
 
 app.use(corsWithOptions);
+app.use(healthCheckRouter);
 app.use(bodyParser.json());
 app.use(authRouter);
 app.use(supportRequestRouter);
