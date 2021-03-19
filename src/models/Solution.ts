@@ -11,15 +11,7 @@ const SolutionSchema = new Schema({
         type: String,
         required: true,
     },
-    man: {
-        type: String,
-        required: true,
-    },
-    woman: {
-        type: String,
-        required: true,
-    },
-    company: {
+    content: {
         type: String,
         required: true,
     },
