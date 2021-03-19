@@ -5,14 +5,12 @@ import updateEntry from '../utils/updateEntry';
 import Errors from '../utils/errors';
 
 export const putAddSolution: MiddlewareFn = routeWrapper(async (req, res) => {
-    const { title, description, man, woman, company, isPublic } = req.body;
+    const { title, description, content, isPublic } = req.body;
 
     const newSolution = new Solution({
         title,
         description,
-        man,
-        woman,
-        company,
+        content,
         isPublic,
         author: req.userId,
     });
@@ -23,7 +21,7 @@ export const putAddSolution: MiddlewareFn = routeWrapper(async (req, res) => {
 });
 
 export const postUpdateSolution: MiddlewareFn = routeWrapper(async (req, res) => {
-    const { title, description, man, woman, company, isPublic } = req.body;
+    const { title, description, content, isPublic } = req.body;
     const { solutionId } = req.params;
 
     if (!solutionId) {
@@ -32,9 +30,7 @@ export const postUpdateSolution: MiddlewareFn = routeWrapper(async (req, res) =>
     const solutionUpdate = {
         title,
         description,
-        man,
-        woman,
-        company,
+        content,
         isPublic,
     };
 
