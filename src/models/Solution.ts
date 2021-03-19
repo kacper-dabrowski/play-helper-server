@@ -28,9 +28,7 @@ const SolutionSchema = new Schema({
 export interface SolutionData extends Document {
     title: string;
     description: string;
-    man: string;
-    woman: string;
-    company: string;
+    content: string;
     isPublic: boolean;
     author: string;
 }
