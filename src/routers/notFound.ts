@@ -1,8 +1,8 @@
 import express from 'express';
-import { NotFoundController } from '../controllers/notFoundController';
+import { notFoundController } from '../controllers/notFoundController';
 
 const router = express.Router();
 
-router.use(NotFoundController);
+router.use(notFoundController);
 
 export default router;

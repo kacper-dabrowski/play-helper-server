@@ -9,7 +9,7 @@ export const getAllSupportRequests: MiddlewareFn = routeWrapper(async (req, res)
     return res.status(200).send({ supportRequests });
 });
 
-export const postAddSupportRequest: MiddlewareFn = routeWrapper(async (req, res) => {
+export const putAddSupportRequest: MiddlewareFn = routeWrapper(async (req, res) => {
     const { title, department, description, content } = req.body;
     const supportRequest = new SupportRequest({
         title,
