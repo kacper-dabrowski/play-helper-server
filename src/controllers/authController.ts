@@ -22,7 +22,9 @@ export const postAddUser: MiddlewareFn = routeWrapper(async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({ username, password: hashedPassword, fullName });
     const savedUser = await user.save();
-    const token = signUser(savedUser);
+
+    const { id } = savedUser;
+    const token = signUser(id, fullName);
 
     return res.status(201).send({
         message: 'User created successfully',
@@ -47,7 +49,7 @@ export const loginUser: MiddlewareFn = routeWrapper(async (req, res) => {
         throw new Errors.BadRequestError('Credentials were incorrect.');
     }
 
-    const token = signUser(user);
+    const token = signUser(user._id, user.fullName);
 
     return res.status(200).send({
         token,

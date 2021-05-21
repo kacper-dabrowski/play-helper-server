@@ -1,13 +1,10 @@
-import { User } from '../../models/User';
 import config from '../../config';
 import jwt from 'jsonwebtoken';
 
-const signUser = (user: User): string => {
+const signUser = (_id: string, fullName: string): string => {
     if (!process.env.JWT_KEY) {
-        throw new Error('There was some error with JWT');
+        throw new Error('No JWT_KEY env is present!');
     }
-
-    const { _id, fullName } = user;
 
     const token = jwt.sign({ userId: _id, fullName, expiresIn: config.EXPIRES_IN }, process.env.JWT_KEY, {
         expiresIn: config.EXPIRES_IN,

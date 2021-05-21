@@ -8,7 +8,7 @@
         "prestart": "npm run build",
         "start": "ts-node ./src/app.ts ",
         "dev": "nodemon src/app.ts",
-        "test": "jest",
+        "test": "jest --testEnvironment=node --verbose --forceExit --watchAll --maxWorkers=1",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix"
     },
