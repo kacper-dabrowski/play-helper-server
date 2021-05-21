@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/User';
 import { MiddlewareFn } from './Middleware';
 import { routeWrapper } from './routeWrapper';
-import Errors from '../utils/errors';
+import Errors from '../modules/errors';
 
 const isAuth: MiddlewareFn = routeWrapper((req, res, next) => {
     const token = req.get('Authorization')?.split(' ')[1];

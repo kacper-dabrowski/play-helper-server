@@ -1,8 +1,8 @@
 import SupportRequest, { allowedUpdates } from '../models/SupportRequest';
 import { MiddlewareFn } from '../middleware/Middleware';
-import updateEntry from '../utils/updateEntry';
+import updateEntry from '../modules/updateEntry';
 import { routeWrapper } from '../middleware/routeWrapper';
-import Errors from '../utils/errors';
+import Errors from '../modules/errors';
 
 export const getAllSupportRequests: MiddlewareFn = routeWrapper(async (req, res) => {
     const supportRequests = await SupportRequest.find({});

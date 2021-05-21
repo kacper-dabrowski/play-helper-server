@@ -2,8 +2,8 @@ import { MiddlewareFn } from '../middleware/Middleware';
 import User from '../models/User';
 import bcrypt from 'bcryptjs';
 import config from '../config';
-import signUser from '../utils/auth/signUser';
-import Errors from '../utils/errors';
+import signUser from '../modules/auth/signUser';
+import Errors from '../modules/errors';
 import { routeWrapper } from '../middleware/routeWrapper';
 
 export const postAddUser: MiddlewareFn = routeWrapper(async (req, res) => {
