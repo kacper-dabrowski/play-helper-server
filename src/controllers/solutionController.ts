@@ -1,8 +1,8 @@
 import { MiddlewareFn } from '../middleware/Middleware';
 import { routeWrapper } from '../middleware/routeWrapper';
 import Solution, { allowedUpdates, SolutionData } from '../models/Solution';
-import updateEntry from '../utils/updateEntry';
-import Errors from '../utils/errors';
+import updateEntry from '../modules/updateEntry';
+import Errors from '../modules/errors';
 
 export const putAddSolution: MiddlewareFn = routeWrapper(async (req, res) => {
     const { title, description, content, isPublic } = req.body;

@@ -3,7 +3,7 @@ import express from 'express';
 import supportRequestRouter from './routers/srq';
 import authRouter from './routers/auth';
 import cors from 'cors';
-import errorHandler from './utils/errors/errorHandler';
+import errorHandler from './modules/errors/errorHandler';
 import notFoundRouter from './routers/notFound';
 import solutionRouter from './routers/solution';
 import healthCheckRouter from './routers/healthCheck';
