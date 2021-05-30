@@ -1,6 +1,6 @@
 import express from 'express';
-import * as solutionController from '../controllers/solutionController';
-import isAuth from '../middleware/is-auth';
+import * as solutionController from '../../controllers/solutionController';
+import isAuth from '../../middleware/is-auth';
 const router = express.Router();
 
 router.get('/solutions', isAuth, solutionController.getSolutions);
