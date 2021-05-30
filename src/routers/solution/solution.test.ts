@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import app from '../../app';
 
-xdescribe('solution router', () => {
+describe('solution router', () => {
     beforeEach(() => {
         jest.restoreAllMocks();
     });

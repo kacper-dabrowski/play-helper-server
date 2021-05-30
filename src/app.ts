@@ -7,6 +7,7 @@ import errorHandler from './modules/errors/errorHandler';
 import notFoundRouter from './routers/notFound/notFound';
 import solutionRouter from './routers/solution/solution';
 import healthCheckRouter from './routers/healthCheck/healthCheck';
+import connectToDb from './db/mongoose';
 
 require('./db/mongoose');
 
@@ -24,10 +25,16 @@ app.use(solutionRouter);
 app.use('*', notFoundRouter);
 app.use(errorHandler);
 
-if (process.env.NODE_ENV !== 'test') {
-    app.listen(PORT, () => {
-        console.log('App is running on ' + PORT);
+connectToDb()
+    .then(() => {
+        if (process.env.NODE_ENV !== 'test') {
+            app.listen(PORT, () => {
+                console.log('App is running on ' + PORT);
+            });
+        }
+    })
+    .catch((error) => {
+        console.error('Failed to connect to the DB. Details: ' + error.message);
     });
-}
 
 export default app;
