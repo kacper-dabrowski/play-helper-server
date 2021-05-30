@@ -27,7 +27,7 @@ describe('auth endpoints', () => {
             expect(savedUser?.username).toEqual(userCredentials.username);
         });
     });
-    describe('logging a user', async () => {
+    describe('logging a user', () => {
         it('should return a valid jwt token, that will pass authentication middleware', async () => {
             const response = await supertest(app)
                 .post('/login')
