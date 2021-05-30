@@ -12,9 +12,6 @@ describe('auth endpoints', () => {
     let userId: string | undefined;
 
     describe('registering a new user', () => {
-        beforeAll(async () => {
-            await User.deleteMany();
-        });
         it('should register a valid user to the database', async () => {
             const response = await supertest(app).post('/signup').send(userCredentials);
 
