@@ -40,7 +40,7 @@ export const loginUser: MiddlewareFn = routeWrapper(async (req, res) => {
     const user = await User.findOne({ username });
 
     if (!user) {
-        throw new Errors.ExistentError();
+        throw new Errors.BadRequestError('Credentials were incorrect.');
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
