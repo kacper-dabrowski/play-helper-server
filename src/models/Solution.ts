@@ -33,5 +33,14 @@ export interface SolutionData extends Document {
     author: string;
 }
 
-export const allowedUpdates = ['title', 'description', 'man', 'woman', 'company', 'isPublic'];
+export interface SolutionDto {
+    _id: string;
+    title: string;
+    description: string;
+    content: string;
+    isPublic: boolean;
+    isAuthor: boolean;
+}
+
+export const allowedUpdates = ['title', 'description', 'content', 'isPublic'];
 export default mongoose.model<SolutionData>('Solution', SolutionSchema);
