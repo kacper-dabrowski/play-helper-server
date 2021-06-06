@@ -14,7 +14,7 @@ require('./db/mongoose');
 const app = express();
 const corsWithOptions = cors({});
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(corsWithOptions);
 app.use(healthCheckRouter);
