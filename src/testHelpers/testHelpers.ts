@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import app from '../app';
 import { SolutionDto } from '../models/Solution';
+import { SupportRequestDto } from '../models/SupportRequest';
 
 export const createUser = async (identifier: number): Promise<string> => {
     const response = await supertest(app)
@@ -68,6 +69,43 @@ export const solutionTestHelpers = {
     ): Promise<{ body: { message: string }; statusCode: number }> => {
         return supertest(app)
             .delete('/solutions/' + solutionId)
+            .set({ Authorization: `Bearer ${userToken}` });
+    },
+};
+export const srqTestHelpers = {
+    addSrqAsLoggedUser: async (userToken: string): Promise<{ body: { message: string }; statusCode: number }> => {
+        return supertest(app)
+            .put('/srq')
+            .set({ Authorization: `Bearer ${userToken}` })
+            .send({
+                title: 'Title1',
+                description: 'Description2',
+                department: 'Department3',
+                content: 'Content4',
+            });
+    },
+    getSrqsAsUser: (userToken: string): Promise<{ body: SupportRequestDto }> => {
+        return supertest(app)
+            .get('/srq')
+            .set({ Authorization: `Bearer ${userToken}` });
+    },
+
+    editSrqAsLoggedInUser: async (
+        userToken: string,
+        update: { title?: string; description?: string; content?: string; department?: string },
+        srqId?: string
+    ): Promise<{ body: { message: string }; statusCode: number }> => {
+        return supertest(app)
+            .post('/srq/' + srqId)
+            .set({ Authorization: `Bearer ${userToken}` })
+            .send(update);
+    },
+    deleteSrqAsLoggedUser: async (
+        userToken: string,
+        srqId?: string
+    ): Promise<{ body: { message: string }; statusCode: number }> => {
+        return supertest(app)
+            .delete('/srq/' + srqId)
             .set({ Authorization: `Bearer ${userToken}` });
     },
 };

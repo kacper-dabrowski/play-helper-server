@@ -30,4 +30,14 @@ export interface SupportRequestData extends mongoose.Document {
 
 export const allowedUpdates = ['title', 'description', 'department', 'content'];
 
+export interface SupportRequestDto {
+    supportRequests: {
+        _id: string;
+        title: string;
+        description: string;
+        department: string;
+        content: string;
+    }[];
+}
+
 export default mongoose.model<SupportRequestData>('SupportRequest', supportRequestSchema);
