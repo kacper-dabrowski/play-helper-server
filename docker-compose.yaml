@@ -12,7 +12,9 @@ services:
         ports:
             - '27017:27017'
     server:
-        env_file: .env
+        environment:
+            MONGODB_URI: mongodb://dev:password@mongodb:27017/test?authSource=admin
+            JWT_KEY: somesupersecret
         build:
             context: .
             dockerfile: ./Dockerfile
