@@ -12,7 +12,7 @@ const connectToDb = async () => {
             useNewUrlParser: true,
         });
     } catch (error) {
-        console.error('Failed to connect to the DB');
+        console.error('Failed to connect to the DB, details:' + error.message);
     }
 };
 

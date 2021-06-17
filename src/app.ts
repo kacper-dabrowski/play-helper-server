@@ -4,6 +4,7 @@ import supportRequestRouter from './routers/srq/srq';
 import authRouter from './routers/auth/auth';
 import cors from 'cors';
 import errorHandler from './modules/errors/errorHandler';
+import settingsRouter from './routers/settings/settings';
 import notFoundRouter from './routers/notFound/notFound';
 import solutionRouter from './routers/solution/solution';
 import healthCheckRouter from './routers/healthCheck/healthCheck';
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use(authRouter);
 app.use(supportRequestRouter);
 app.use(solutionRouter);
+app.use(settingsRouter);
 app.use('*', notFoundRouter);
 app.use(errorHandler);
 

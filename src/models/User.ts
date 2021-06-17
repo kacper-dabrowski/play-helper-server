@@ -16,6 +16,9 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    settings: {
+        startingPage: { type: String, default: 'basic' },
+    },
     isAdmin: {
         type: Boolean,
     },
@@ -26,7 +29,14 @@ export interface User extends mongoose.Document {
     username: string;
     password: string;
     fullName: string;
+    settings: UserSettings;
     isAdmin?: boolean;
 }
+
+export interface UserSettings {
+    startingPage: string;
+}
+
+export const allowedSettingsUpdates = ['startingPage'];
 
 export default mongoose.model<User>('User', userSchema);
