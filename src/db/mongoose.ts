@@ -1,8 +1,6 @@
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-dotenv.config();
-const connectToDb = async () => {
+const connectToDb = async (): Promise<typeof mongoose | undefined> => {
     try {
         if (!process.env.MONGODB_URI) {
             throw new Error('No mongodb uri found, provide it in env variables!');
