@@ -8,11 +8,11 @@
         "prestart": "npm run build",
         "start": "ts-node ./src/app.ts ",
         "dev": "nodemon src/app.ts",
-        "test": "env-cmd -f ./dev.env jest --testEnvironment=node --verbose --forceExit --watchAll --maxWorkers=1 --detectOpenHandles",
+        "test": "env-cmd -f ./.env jest --testEnvironment=node --verbose --forceExit --watchAll --maxWorkers=1 --detectOpenHandles",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix",
         "test:e2e": "./dev/devops/e2e-tests.sh",
-        "test:once": "env-cmd -f ./dev.env jest --testEnvironment=node --verbose --forceExit --maxWorkers=1 --detectOpenHandles"
+        "test:once": "env-cmd -f ./.env jest --testEnvironment=node --verbose --forceExit --maxWorkers=1 --detectOpenHandles"
     },
     "keywords": [],
     "author": "",

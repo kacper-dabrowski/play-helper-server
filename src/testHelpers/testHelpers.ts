@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import app from '../app';
 import { SolutionDto } from '../models/Solution';
 import { SupportRequestDto } from '../models/SupportRequest';
+import { UserSettings } from '../models/User';
 
 export const createUser = async (identifier: number): Promise<string> => {
     const response = await supertest(app)
@@ -19,7 +20,7 @@ export const createUser = async (identifier: number): Promise<string> => {
     return response.body.userId;
 };
 
-export const loginDummyUser = async (identifier: number): Promise<string> => {
+export const loginDummyUser = async (identifier: number): Promise<{ token: string; userId: string }> => {
     const response = await supertest(app)
         .post('/login')
         .send({
@@ -27,7 +28,7 @@ export const loginDummyUser = async (identifier: number): Promise<string> => {
             password: 'Testing' + identifier,
         });
 
-    return response?.body?.token;
+    return { token: response?.body?.token, userId: response?.body?.userId };
 };
 
 export const solutionTestHelpers = {
@@ -107,5 +108,19 @@ export const srqTestHelpers = {
         return supertest(app)
             .delete('/srq/' + srqId)
             .set({ Authorization: `Bearer ${userToken}` });
+    },
+};
+
+export const settingsTestHelpers = {
+    editSettingsAsLoggedUser: async (
+        userToken: string,
+        updateSettings: { settings?: UserSettings }
+    ): Promise<{ body: { message: string } }> => {
+        return supertest(app)
+            .post('/user/settings')
+            .set({
+                Authorization: `Bearer ${userToken}`,
+            })
+            .send(updateSettings);
     },
 };

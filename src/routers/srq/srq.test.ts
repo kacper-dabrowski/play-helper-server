@@ -11,31 +11,31 @@ describe('SRQ routes', () => {
     });
 
     it('should add a new srq', async () => {
-        const userToken = await loginDummyUser(1);
-        const response = await srqTestHelpers.addSrqAsLoggedUser(userToken);
+        const { token } = await loginDummyUser(1);
+        const response = await srqTestHelpers.addSrqAsLoggedUser(token);
 
         expect(response.body).toEqual({ message: 'Entity created' });
     });
 
     it('should be able to get all created SRQs', async () => {
-        const userToken = await loginDummyUser(1);
+        const { token } = await loginDummyUser(1);
 
-        await srqTestHelpers.addSrqAsLoggedUser(userToken);
+        await srqTestHelpers.addSrqAsLoggedUser(token);
 
-        const response = await srqTestHelpers.getSrqsAsUser(userToken);
+        const response = await srqTestHelpers.getSrqsAsUser(token);
 
         expect(response.body.supportRequests).toHaveLength(2);
     });
 
     it('should be able to edit a selected srq', async () => {
-        const userToken = await loginDummyUser(1);
+        const { token } = await loginDummyUser(1);
 
-        const srqs = await srqTestHelpers.getSrqsAsUser(userToken);
+        const srqs = await srqTestHelpers.getSrqsAsUser(token);
 
         const srqId = srqs.body.supportRequests[0]._id;
 
         await srqTestHelpers.editSrqAsLoggedInUser(
-            userToken,
+            token,
             {
                 title: 'Updated title',
                 description: 'Updated description',
@@ -44,7 +44,7 @@ describe('SRQ routes', () => {
             },
             srqId
         );
-        const srqsAfterUpdate = await srqTestHelpers.getSrqsAsUser(userToken);
+        const srqsAfterUpdate = await srqTestHelpers.getSrqsAsUser(token);
 
         const editedSrq = srqsAfterUpdate.body.supportRequests.find((srq) => srq._id === srqId);
 
@@ -56,12 +56,12 @@ describe('SRQ routes', () => {
         });
     });
     it('should be able to remove SRQ with specified ID', async () => {
-        const userToken = await loginDummyUser(1);
+        const { token } = await loginDummyUser(1);
         const allSrqs = await SupportRequest.find();
 
         const srqId = allSrqs[0]._id;
 
-        const response = await srqTestHelpers.deleteSrqAsLoggedUser(userToken, srqId);
+        const response = await srqTestHelpers.deleteSrqAsLoggedUser(token, srqId);
 
         const result = await SupportRequest.findById(srqId);
 

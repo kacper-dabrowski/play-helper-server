@@ -24,66 +24,66 @@ describe('solution router', () => {
 
     describe('Creating, reading editing and removing a solution', () => {
         it('should add a new solution to the database', async () => {
-            const userToken = await loginDummyUser(1);
+            const { token } = await loginDummyUser(1);
 
-            const response = await solutionTestHelpers.addSolutionAsLoggedUser(userToken, true);
+            const response = await solutionTestHelpers.addSolutionAsLoggedUser(token, true);
 
             expect(response.body).toEqual({ message: 'Successfully created a new solution' });
             expect(response.statusCode).toEqual(201);
         });
 
         it('should add a new solution to the database', async () => {
-            const userToken = await loginDummyUser(1);
+            const { token } = await loginDummyUser(1);
 
-            const response = await solutionTestHelpers.addSolutionAsLoggedUser(userToken, false);
+            const response = await solutionTestHelpers.addSolutionAsLoggedUser(token, false);
 
             expect(response.body).toEqual({ message: 'Successfully created a new solution' });
         });
 
         it('should send all public and owners private solutions from the database', async () => {
-            const firstUserToken = await loginDummyUser(1);
+            const { token: firstToken } = await loginDummyUser(1);
 
-            await solutionTestHelpers.addSolutionAsLoggedUser(firstUserToken, true);
+            await solutionTestHelpers.addSolutionAsLoggedUser(firstToken, true);
 
-            const secondUserToken = await loginDummyUser(2);
+            const { token: secondtoken } = await loginDummyUser(2);
 
-            const response = await solutionTestHelpers.getSolutionsAsUser(secondUserToken);
+            const response = await solutionTestHelpers.getSolutionsAsUser(secondtoken);
 
             expect(response.body.length).toEqual(2);
         });
 
         it('should not send solutions that belong to other users and are not marked as public', async () => {
-            const firstUserToken = await loginDummyUser(1);
+            const { token: firstToken } = await loginDummyUser(1);
 
-            await solutionTestHelpers.addSolutionAsLoggedUser(firstUserToken, false);
+            await solutionTestHelpers.addSolutionAsLoggedUser(firstToken, false);
 
-            const secondUserToken = await loginDummyUser(2);
+            const { token: secondtoken } = await loginDummyUser(2);
 
-            const response = await solutionTestHelpers.getSolutionsAsUser(secondUserToken);
+            const response = await solutionTestHelpers.getSolutionsAsUser(secondtoken);
 
             expect(response.body.length).toEqual(2);
         });
 
         it('should update certain fields of the document', async () => {
-            const userToken = await loginDummyUser(1);
+            const { token } = await loginDummyUser(1);
 
             const solution = await Solution.findOne();
 
             const solutionId = solution?.id;
 
-            await solutionTestHelpers.editSolutionAsLoggedUser(userToken, { title: 'editedTitle' }, solutionId);
+            await solutionTestHelpers.editSolutionAsLoggedUser(token, { title: 'editedTitle' }, solutionId);
 
-            await solutionTestHelpers.editSolutionAsLoggedUser(userToken, { content: 'editedContent' }, solutionId);
+            await solutionTestHelpers.editSolutionAsLoggedUser(token, { content: 'editedContent' }, solutionId);
 
             await solutionTestHelpers.editSolutionAsLoggedUser(
-                userToken,
+                token,
                 {
                     description: 'editedDescription',
                 },
                 solutionId
             );
 
-            await solutionTestHelpers.editSolutionAsLoggedUser(userToken, { isPublic: false }, solutionId);
+            await solutionTestHelpers.editSolutionAsLoggedUser(token, { isPublic: false }, solutionId);
 
             expect(await Solution.findOne({ _id: solutionId })).toMatchObject({
                 title: 'editedTitle',
@@ -97,29 +97,29 @@ describe('solution router', () => {
         });
 
         it('should completely delete the solution with specified ID', async () => {
-            const userToken = await loginDummyUser(1);
+            const { token } = await loginDummyUser(1);
 
-            const solutions = await solutionTestHelpers.getSolutionsAsUser(userToken);
+            const solutions = await solutionTestHelpers.getSolutionsAsUser(token);
 
             const solutionToRemove = solutions.body.find((solution) => solution.isAuthor);
 
-            await solutionTestHelpers.deleteSolutionAsLoggedUser(userToken, solutionToRemove?._id);
+            await solutionTestHelpers.deleteSolutionAsLoggedUser(token, solutionToRemove?._id);
 
             expect(solutionToRemove?._id).not.toEqual(null);
             expect(await Solution.find({ _id: solutionToRemove?._id })).toEqual([]);
         });
 
         it('should not allow to remove public solutions, that do not belong to the user', async () => {
-            const secondUserToken = await loginDummyUser(2);
-            await solutionTestHelpers.addSolutionAsLoggedUser(secondUserToken, true);
+            const { token: secondtoken } = await loginDummyUser(2);
+            await solutionTestHelpers.addSolutionAsLoggedUser(secondtoken, true);
 
-            const userToken = await loginDummyUser(1);
+            const { token } = await loginDummyUser(1);
 
-            const solutions = await solutionTestHelpers.getSolutionsAsUser(userToken);
+            const solutions = await solutionTestHelpers.getSolutionsAsUser(token);
 
             const solutionToRemove = solutions.body.find((solution) => !solution.isAuthor);
 
-            await solutionTestHelpers.deleteSolutionAsLoggedUser(userToken, solutionToRemove?._id);
+            await solutionTestHelpers.deleteSolutionAsLoggedUser(token, solutionToRemove?._id);
 
             expect(solutionToRemove?._id).not.toEqual(null);
             expect(await Solution.find({ _id: solutionToRemove?._id })).not.toEqual([]);
