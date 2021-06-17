@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import app from '../app';
 import { SolutionDto } from '../models/Solution';
 import { SupportRequestDto } from '../models/SupportRequest';
-import { UserSettings } from '../models/User';
+import { User, UserSettings } from '../models/User';
 
 export const createUser = async (identifier: number): Promise<string> => {
     const response = await supertest(app)
@@ -122,5 +122,11 @@ export const settingsTestHelpers = {
                 Authorization: `Bearer ${userToken}`,
             })
             .send(updateSettings);
+    },
+    getUserData: async (userToken: string): Promise<{ body?: User }> => {
+        return supertest(app)
+            .get('/user/settings')
+            .set({ Authorization: `Bearer ${userToken}` })
+            .send();
     },
 };

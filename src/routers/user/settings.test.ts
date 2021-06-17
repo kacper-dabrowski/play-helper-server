@@ -52,4 +52,18 @@ describe('user settings', () => {
 
         expect(response.body).toEqual({ errorCode: 400, message: 'User was not found' });
     });
+
+    it('should be able to get user data', async () => {
+        await createUser(1);
+        const { token } = await loginDummyUser(1);
+
+        const response = await settingsTestHelpers.getUserData(token);
+
+        expect(response.body).toMatchObject({
+            fullName: 'Testing Testing1',
+            settings: { startingPage: 'basic' },
+            username: 'Test1',
+        });
+        expect(response?.body?.userId).not.toEqual(undefined);
+    });
 });
