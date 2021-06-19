@@ -7,6 +7,7 @@ const isAuth: MiddlewareFn = routeWrapper((req, res, next) => {
         const token = req.get('Authorization')?.split(' ')[1];
 
         const decodedToken = verifyToken(token);
+
         req.userId = decodedToken.userId;
 
         next();
