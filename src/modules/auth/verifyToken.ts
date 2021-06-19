@@ -10,10 +10,6 @@ const verifyToken = (token?: string): User => {
 
         const decodedToken = jwt.verify(token, process.env.JWT_KEY) as User;
 
-        if (!decodedToken) {
-            throw new Errors.NoGrantsError();
-        }
-
         return decodedToken;
     } catch (error) {
         throw new Errors.BadRequestError('Authentication failed');
