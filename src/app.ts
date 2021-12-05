@@ -9,6 +9,7 @@ import notFoundRouter from './routers/notFound/notFound';
 import solutionRouter from './routers/solution/solution';
 import healthCheckRouter from './routers/healthCheck/healthCheck';
 import connectToDb from './db/mongoose';
+import { logger } from './modules/logger/logger';
 
 require('./db/mongoose');
 
@@ -17,6 +18,7 @@ const corsWithOptions = cors({});
 
 const PORT = process.env.PORT || 3001;
 
+app.use(logger);
 app.use(corsWithOptions);
 app.use(healthCheckRouter);
 app.use(bodyParser.json());
