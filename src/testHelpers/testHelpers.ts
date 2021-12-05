@@ -11,6 +11,7 @@ export const createUser = async (identifier: number): Promise<string> => {
             username: 'Test' + identifier,
             password: 'Testing' + identifier,
             fullName: 'Testing Testing' + identifier,
+            repeatPassword: 'Testing' + identifier,
         });
 
     if (response.statusCode !== 201) {

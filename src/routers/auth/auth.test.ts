@@ -7,6 +7,7 @@ const userCredentials = {
     username: 'newacc',
     password: 'testtest123',
     fullName: 'Test Testing',
+    repeatPassword: 'testtest123',
 };
 describe('auth endpoints', () => {
     let userId: string | undefined;
