@@ -7,7 +7,7 @@ import Errors from '../modules/errors';
 import { routeWrapper } from '../middleware/routeWrapper';
 
 export const postAddUser: MiddlewareFn = routeWrapper(async (req, res) => {
-    const { username, fullName, password } = req.body;
+    const { username, fullName, password, repeatPassword } = req.body;
 
     if (!username || !fullName || !password) {
         throw new Errors.BadRequestError();
@@ -17,6 +17,10 @@ export const postAddUser: MiddlewareFn = routeWrapper(async (req, res) => {
 
     if (isExistingUser) {
         throw new Errors.ExistentError();
+    }
+
+    if (password !== repeatPassword) {
+        throw new Errors.BadRequestError();
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);

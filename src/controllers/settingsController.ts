@@ -27,7 +27,7 @@ export const postEditSettings: MiddlewareFn = routeWrapper(async (req, res) => {
     return res.status(200).send({ message: 'Users settings updated successfully' });
 });
 
-export const getUser: MiddlewareFn = routeWrapper(async (req, res, next) => {
+export const getUser: MiddlewareFn = routeWrapper(async (req, res) => {
     const { userId } = req;
 
     const user = await User.findById(userId);
