@@ -17,7 +17,7 @@ const userSchema = new Schema({
         required: true,
     },
     settings: {
-        startingPage: { type: String, default: 'basic' },
+        startingPage: { type: String, default: '/support/basic' },
     },
     isAdmin: {
         type: Boolean,
