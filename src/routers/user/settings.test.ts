@@ -3,7 +3,7 @@ import { createUser, loginDummyUser, settingsTestHelpers } from '../../testHelpe
 
 describe('user settings', () => {
     const defaultUserSettings = {
-        startingPage: 'basic',
+        startingPage: '/support/basic',
     };
     let token: string;
     let userId: string;
@@ -61,7 +61,7 @@ describe('user settings', () => {
 
         expect(response.body).toMatchObject({
             fullName: 'Testing Testing1',
-            settings: { startingPage: 'basic' },
+            settings: { startingPage: '/support/basic' },
             username: 'Test1',
         });
         expect(response?.body?.userId).not.toEqual(undefined);
