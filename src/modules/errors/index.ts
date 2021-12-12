@@ -54,4 +54,8 @@ export interface GenericError {
     status: number;
 }
 
+export const isErrorWithMessage = (error: unknown): error is Error => {
+    return error instanceof Error;
+};
+
 export default builtDefinitions;
