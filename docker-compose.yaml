@@ -1,0 +1,32 @@
+version: '3.18'
+
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_USER: dev
+      MONGO_PASSWORD: password
+    volumes:
+      - data:/data/db
+    ports:
+      - '27017:27017'
+  server:
+    environment:
+      DB_USERNAME: dev
+      DB_PASSWORD: password
+      MONGODB_URL: mongodb://mongodb:27017/play-helper
+      JWT_KEY: somesupersecret
+      PORT: 3001
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - /app/node_modules
+      - ./:/app
+    depends_on:
+      - mongodb
+volumes:
+  data:
