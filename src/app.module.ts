@@ -3,8 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SupportRequest } from './support-requests/support-requests.entity';
 import { SupportRequestsModule } from './support-requests/support-requests.module';
-
-console.log(process.env.MONGODB_URL);
+import { SolutionsModule } from './solutions/solutions.module';
+import { Solution } from './solutions/solution.entity';
 
 @Module({
   imports: [
@@ -12,13 +12,12 @@ console.log(process.env.MONGODB_URL);
       ignoreEnvFile: true,
       isGlobal: true,
     }),
-    SupportRequestsModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         return {
-          entities: [SupportRequest],
+          entities: [SupportRequest, Solution],
           type: 'mongodb',
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
@@ -27,6 +26,8 @@ console.log(process.env.MONGODB_URL);
         };
       },
     }),
+    SupportRequestsModule,
+    SolutionsModule,
   ],
 })
 export class AppModule {}
