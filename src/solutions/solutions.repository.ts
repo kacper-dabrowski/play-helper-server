@@ -20,16 +20,13 @@ export class SolutionsRepository extends Repository<Solution> {
     solutionId: string,
     updateSolutionDto: UpdateSolutionDto,
   ): Promise<boolean> {
-    const { affected } = await this.update(
-      { _id: solutionId },
-      updateSolutionDto,
-    );
+    const { affected } = await this.update(solutionId, updateSolutionDto);
 
     return !!affected;
   }
 
   async removeSolutionById(solutionId: string) {
-    const { affected } = await this.delete({ _id: solutionId });
+    const { affected } = await this.delete(solutionId);
 
     return !!affected;
   }

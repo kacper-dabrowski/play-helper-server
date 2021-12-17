@@ -5,11 +5,11 @@ import { SupportRequest } from './support-requests.entity';
 @EntityRepository(SupportRequest)
 export class SupportRequestRepository extends Repository<SupportRequest> {
   async createSupportRequest(addSupportRequestDto: AddSupportRequestDto) {
-    const createdTask = this.create(addSupportRequestDto);
+    const createdSupportRequest = this.create(addSupportRequestDto);
 
-    await this.save(createdTask);
+    await this.save(createdSupportRequest);
 
-    return createdTask;
+    return createdSupportRequest;
   }
 
   async getSupportRequests(): Promise<SupportRequest[]> {
@@ -17,7 +17,7 @@ export class SupportRequestRepository extends Repository<SupportRequest> {
   }
 
   async removeSupportRequestById(supportRequestId: string): Promise<boolean> {
-    const { affected } = await this.delete({ _id: supportRequestId });
+    const { affected } = await this.delete(supportRequestId);
 
     return Boolean(affected);
   }

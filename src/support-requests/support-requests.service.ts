@@ -22,7 +22,9 @@ export class SupportRequestsService {
   }
 
   removeSupportRequest(supportRequestId: string) {
-    this.supportRequestsRepository.removeSupportRequestById(supportRequestId);
+    return this.supportRequestsRepository.removeSupportRequestById(
+      supportRequestId,
+    );
   }
 
   async updateSupportRequest(
@@ -30,9 +32,7 @@ export class SupportRequestsService {
     updateSupportRequestDto: UpdateSupportRequestDto,
   ) {
     const supportRequestToUpdate = await this.supportRequestsRepository.findOne(
-      {
-        _id: supportRequestId,
-      },
+      supportRequestId,
     );
 
     if (!supportRequestToUpdate) {
@@ -40,7 +40,7 @@ export class SupportRequestsService {
     }
 
     const { affected } = await this.supportRequestsRepository.update(
-      { _id: supportRequestId },
+      supportRequestId,
       updateSupportRequestDto,
     );
 

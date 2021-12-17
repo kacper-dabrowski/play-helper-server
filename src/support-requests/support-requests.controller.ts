@@ -34,6 +34,8 @@ export class SupportRequestsController {
     @Param('id') supportRequestId: string,
     @Body() updateSupportRequestDto: UpdateSupportRequestDto,
   ) {
+    console.log(supportRequestId);
+
     return this.supportRequestService.updateSupportRequest(
       supportRequestId,
       updateSupportRequestDto,
