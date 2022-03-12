@@ -19,7 +19,7 @@ describe('auth endpoints', () => {
             userId = response.body.userId;
             const savedUser = await User.findOne({ _id: userId });
 
-            expect(response.body.message).toEqual('User created successfully');
+            expect(response.body.success).toEqual(true);
             expect(response.statusCode).toEqual(201);
             expect(savedUser?.fullName).toEqual(userCredentials.fullName);
             expect(savedUser?.username).toEqual(userCredentials.username);
@@ -49,9 +49,9 @@ describe('auth endpoints', () => {
                 .post('/login')
                 .send({ username: 'nonExistentUser', password: userCredentials.password });
 
-            expect(responseAfterWrongLogin.body.message).toEqual('Credentials were incorrect.');
+            expect(responseAfterWrongLogin.body.message).toEqual('credentialsInvalid');
             expect(responseAfterWrongLogin.statusCode).toEqual(400);
-            expect(responseAfterWrongPassword.body.message).toEqual('Credentials were incorrect.');
+            expect(responseAfterWrongPassword.body.message).toEqual('credentialsInvalid');
             expect(responseAfterWrongPassword.statusCode).toEqual(400);
         });
     });
