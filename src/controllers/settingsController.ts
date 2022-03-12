@@ -20,9 +20,7 @@ export const postEditSettings: MiddlewareFn = routeWrapper(async (req, res) => {
 
     const modifiedUserSettings = updateEntry(user.settings, settings, allowedSettingsUpdates);
 
-    user.settings = modifiedUserSettings;
-
-    await user.save();
+    await user.update({ $set: { settings: modifiedUserSettings } });
 
     return res.status(200).send({ message: 'Users settings updated successfully' });
 });

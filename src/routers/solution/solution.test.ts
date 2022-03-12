@@ -19,7 +19,7 @@ describe('solution router', () => {
     it('should not allow getting solutions if user is not authenticated', async () => {
         const response = await supertest(app).get('/solutions');
 
-        expect(response.body).toEqual({ errorCode: 400, message: 'Authentication failed' });
+        expect(response.body).toEqual({ errorCode: 401, message: 'Not Authorized' });
     });
 
     describe('Creating, reading editing and removing a solution', () => {
@@ -28,7 +28,7 @@ describe('solution router', () => {
 
             const response = await solutionTestHelpers.addSolutionAsLoggedUser(token, true);
 
-            expect(response.body).toEqual({ message: 'Successfully created a new solution' });
+            expect(response.body).toEqual({ success: true });
             expect(response.statusCode).toEqual(201);
         });
 
@@ -37,7 +37,7 @@ describe('solution router', () => {
 
             const response = await solutionTestHelpers.addSolutionAsLoggedUser(token, false);
 
-            expect(response.body).toEqual({ message: 'Successfully created a new solution' });
+            expect(response.body).toEqual({ success: true });
         });
 
         it('should send all public and owners private solutions from the database', async () => {

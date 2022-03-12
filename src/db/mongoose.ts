@@ -1,16 +1,16 @@
 import mongoose from 'mongoose';
 
-const connectToDb = async (): Promise<typeof mongoose | undefined> => {
+const connectToDb = async (): Promise<void> => {
     try {
         if (!process.env.MONGODB_URI) {
             throw new Error('No mongodb uri found, provide it in env variables!');
         }
 
-        return mongoose.connect(process.env.MONGODB_URI, {
-            useNewUrlParser: true,
-        });
+        await mongoose.connect(process.env.MONGODB_URI, {});
     } catch (error) {
-        console.error(`Failed to connect to the DB, details:${error.message}`);
+        if (error instanceof Error) {
+            console.error(`Failed to connect to the DB, details:${error.message}`);
+        }
     }
 };
 

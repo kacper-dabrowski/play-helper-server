@@ -17,7 +17,7 @@ export const putAddSolution: MiddlewareFn = routeWrapper(async (req, res) => {
 
     await newSolution.save();
 
-    return res.status(201).send({ message: 'Successfully created a new solution' });
+    return res.status(201).send({ success: true });
 });
 
 export const postUpdateSolution: MiddlewareFn = routeWrapper(async (req, res) => {
@@ -38,7 +38,7 @@ export const postUpdateSolution: MiddlewareFn = routeWrapper(async (req, res) =>
     const updatedSolution = updateEntry(solution, solutionUpdate, allowedUpdates);
     await updatedSolution.update(updatedSolution);
 
-    return res.status(200).send({ message: 'Entity updated successfully' });
+    return res.status(200).send({ success: true });
 });
 
 export const deleteSolutionById: MiddlewareFn = routeWrapper(async (req, res) => {
@@ -52,7 +52,7 @@ export const deleteSolutionById: MiddlewareFn = routeWrapper(async (req, res) =>
         throw new Errors.NoGrantsError();
     }
     await solutionToDelete.delete();
-    return res.status(200).send({ message: 'Entity removed successfully' });
+    return res.status(200).send({ success: true });
 });
 
 export const getSolutions: MiddlewareFn = routeWrapper(async (req, res) => {
