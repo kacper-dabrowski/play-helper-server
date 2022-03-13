@@ -5,8 +5,8 @@ describe('user settings', () => {
     const defaultUserSettings = {
         startingPage: '/support/basic',
     };
-    let token: string;
-    let userId: string;
+    let loggedUserToken: string;
+    let loggedUserId: string;
 
     beforeAll(async () => {
         await User.deleteMany();
@@ -15,28 +15,28 @@ describe('user settings', () => {
 
     beforeEach(async () => {
         const userLogin = await loginDummyUser(1);
-        token = userLogin.token;
-        userId = userLogin.userId;
+        loggedUserToken = userLogin.token;
+        loggedUserId = userLogin.userId;
     });
 
     it('should set users settings to default when creating a new one', async () => {
-        const user = await User.findById(userId);
+        const user = await User.findById(loggedUserId);
 
         expect(user?.settings).toMatchObject(defaultUserSettings);
     });
 
     it('should set users settings after a valid request', async () => {
-        const response = await settingsTestHelpers.editSettingsAsLoggedUser(token, {
+        const response = await settingsTestHelpers.editSettingsAsLoggedUser(loggedUserToken, {
             settings: { startingPage: '/double-opened' },
         });
-        const user = await User.findById(userId);
+        const user = await User.findById(loggedUserId);
 
         expect(response.body).toEqual({ message: 'Users settings updated successfully' });
         expect(user?.settings).toMatchObject({ ...defaultUserSettings, startingPage: '/double-opened' });
     });
 
     it('should throw an error if settings are not sent correctly', async () => {
-        const response = await settingsTestHelpers.editSettingsAsLoggedUser(token, {});
+        const response = await settingsTestHelpers.editSettingsAsLoggedUser(loggedUserToken, {});
 
         expect(response.body).toEqual({ errorCode: 400, message: 'Settings object was not provided' });
     });

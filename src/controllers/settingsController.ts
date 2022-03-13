@@ -6,7 +6,7 @@ import updateEntry from '../modules/updateEntry';
 
 export const postEditSettings: MiddlewareFn = routeWrapper(async (req, res) => {
     const { userId } = req;
-    const settings: UserSettings = req.body.settings;
+    const { settings } = req.body;
 
     if (!settings) {
         throw new Errors.BadRequestError('Settings object was not provided');

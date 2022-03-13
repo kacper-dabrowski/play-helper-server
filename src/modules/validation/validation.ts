@@ -1,8 +1,9 @@
 import Joi from 'joi';
 import { MiddlewareFn } from '../../middleware/Middleware';
 
-export const validateBodyWithSchema = (schema: Joi.Schema): MiddlewareFn => {
-    return async (req, res, next) => {
+export const validateBodyWithSchema =
+    (schema: Joi.Schema): MiddlewareFn =>
+    async (req, res, next) => {
         try {
             await schema.validateAsync(req.body);
 
@@ -11,4 +12,3 @@ export const validateBodyWithSchema = (schema: Joi.Schema): MiddlewareFn => {
             next(error);
         }
     };
-};

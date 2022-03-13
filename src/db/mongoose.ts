@@ -10,7 +10,7 @@ const connectToDb = async (): Promise<typeof mongoose | undefined> => {
             useNewUrlParser: true,
         });
     } catch (error) {
-        console.error('Failed to connect to the DB, details:' + error.message);
+        console.error(`Failed to connect to the DB, details:${error.message}`);
     }
 };
 

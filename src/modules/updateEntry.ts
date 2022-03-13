@@ -10,6 +10,7 @@ const updateEntry = <T>(object: T, updates: Partial<T>, updatableFields: Array<s
     Object.entries(updates).forEach((entry) => {
         const [key, value] = entry as objectEntry<T>;
         if (updatableFields.includes(key) && value !== null && value !== undefined) {
+            // eslint-disable-next-line no-param-reassign
             object[key] = value;
         }
     });

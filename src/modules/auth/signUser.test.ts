@@ -1,5 +1,5 @@
-import signUser from './signUser';
 import jwt from 'jsonwebtoken';
+import signUser from './signUser';
 
 describe('signUser', () => {
     const OLD_ENV = process.env;
