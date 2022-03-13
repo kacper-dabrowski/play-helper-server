@@ -31,7 +31,7 @@ describe('user settings', () => {
         });
         const user = await User.findById(loggedUserId);
 
-        expect(response.body).toEqual({ message: 'Users settings updated successfully' });
+        expect(response.body).toEqual({ success: true });
         expect(user?.settings).toMatchObject({ ...defaultUserSettings, startingPage: '/double-opened' });
     });
 
@@ -62,7 +62,6 @@ describe('user settings', () => {
         expect(response.body).toMatchObject({
             fullName: 'Testing Testing1',
             settings: { startingPage: '/support/basic' },
-            username: 'Test1',
         });
         expect(response?.body?.userId).not.toEqual(undefined);
     });
