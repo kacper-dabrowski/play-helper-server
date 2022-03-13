@@ -1,9 +1,9 @@
-import User from '../../models/User';
-import { AuthModule } from './auth';
-import Errors from '../errors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { FakeVerificator } from './verification';
+import User from '../../models/User';
+import Errors from '../errors';
+import { AuthModule } from './auth';
+import { FakeVerificator } from './verificator/fakeVerificator';
 
 jest.mock('../../models/User');
 jest.mock('bcryptjs');
