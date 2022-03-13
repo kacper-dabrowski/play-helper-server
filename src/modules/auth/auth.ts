@@ -3,7 +3,8 @@ import config from '../../config';
 import User from '../../models/User';
 import Errors from '../errors';
 import { LoginUserDto, OperationFeedback, AuthResult, CreateUserDto } from './dto';
-import { JwtVerificator, Verificator } from './verification';
+import { JwtVerificator } from './verificator/jwtVerificator';
+import { Verificator } from './verificator/verificator';
 
 export class AuthModule {
     constructor(private verificator: Verificator) {}
