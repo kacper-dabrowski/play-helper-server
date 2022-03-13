@@ -3,6 +3,7 @@ import isAuth from '../../middleware/is-auth';
 import * as supportRequestController from '../../controllers/srqController';
 import { validateBodyWithSchema } from '../../modules/validation/validation';
 import { supportRequestSchema } from '../../modules/validation/schemas';
+
 const router = express.Router();
 
 router.get('/srq', isAuth, supportRequestController.getAllSupportRequests);

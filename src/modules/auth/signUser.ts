@@ -1,5 +1,5 @@
-import config from '../../config';
 import jwt from 'jsonwebtoken';
+import config from '../../config';
 
 const signUser = (_id: string, fullName: string): string => {
     if (!process.env.JWT_KEY) {

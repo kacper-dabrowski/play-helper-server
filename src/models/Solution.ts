@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const SolutionSchema = new Schema({
     title: {

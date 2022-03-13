@@ -1,6 +1,6 @@
+import bcrypt from 'bcryptjs';
 import { MiddlewareFn } from '../middleware/Middleware';
 import User from '../models/User';
-import bcrypt from 'bcryptjs';
 import config from '../config';
 import signUser from '../modules/auth/signUser';
 import Errors from '../modules/errors';

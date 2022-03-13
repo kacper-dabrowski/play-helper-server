@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../../models/User';
-import Errors from '../../modules/errors';
+import Errors from '../errors';
 
 const verifyToken = (token?: string): User => {
     try {
