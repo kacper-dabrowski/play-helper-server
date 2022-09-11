@@ -6,7 +6,8 @@
     "scripts": {
         "build": "tsc",
         "prestart": "npm run build",
-        "start": "ts-node ./src/app.ts ",
+        "start:ts": "ts-node ./src/app.ts ",
+        "start:js":"node ./dist/app.js",
         "dev": "nodemon src/app.ts",
         "test": "jest --testEnvironment=node --verbose --forceExit --watchAll --maxWorkers=50% --detectOpenHandles",
         "lint": "eslint . --ext .ts",
